@@ -1,8 +1,14 @@
+"use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import { FcRating } from "react-icons/fc";
 import { Button } from "./ui/button";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { RxValue } from "react-icons/rx";
 import { Movie } from "./Movie";
+import { error } from "console";
+import { Slice } from "lucide-react";
 
 export const MoviesList = ({ listStatus }: any) => {
   let hudData = [
@@ -68,6 +74,34 @@ export const MoviesList = ({ listStatus }: any) => {
     },
   ];
 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // asynchronous код давхар гүйцэтгэгдэх боломжтой болно.
+    // const fetchData = async () => {
+    // Алдаа гарахад try-catch ашиглан барьж, алдааны мэдээлэл харуулдаг болгов.
+    // try {
+    // const response = await
+    axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=1`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
+          },
+        }
+      )
+      // setData(response.data.results);
+      .then((res) => setData(res.data.results));
+
+    // catch (error) {
+    //   console.error("aldaa shu api:", error);
+    // }
+    // fetchData();
+  }, []); // 'listStatus' хувьсагч өөрчлөгдөх үед дахин татна
+
   return (
     <div className="w-full flex flex-col gap-8 px-20">
       <div className="flex justify-between">
@@ -79,13 +113,13 @@ export const MoviesList = ({ listStatus }: any) => {
       </div>
       {/* <div className="w-full grid-rows-[200px_minmax(900px,1fr)_100px] "> */}
       <div className="w-full grid xl:grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
-        {hudData.map((value, index) => {
+        {data?.slice(0, 10).map((value, index) => {
           return (
             <Movie
               key={index}
-              posterLink={value.posterLink}
-              rating={value.rating}
-              movieName={value.movieName}
+              posterLink={`https://image.tmdb.org/t/p/w300${value.poster_path}`}
+              rating={value.vote_average}
+              movieName={value.original_title}
             />
           );
         })}

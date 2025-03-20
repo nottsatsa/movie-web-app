@@ -1,3 +1,7 @@
+"use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import { BsFilm } from "react-icons/bs";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { MdOutlineDarkMode } from "react-icons/md";
@@ -27,6 +31,23 @@ import { Input } from "@/components/ui/input";
 import { MoviesList } from "@/components/MoviesList";
 
 export default function Home() {
+  const [playingData, setPlayingData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
+          },
+        }
+      )
+      .then((res) => setPlayingData(res.playingData.results));
+  }, []);
+
   return (
     <>
       <nav className="flex items-center justify-around p-4">
@@ -49,7 +70,7 @@ export default function Home() {
 
           <div className="flex items-center gap-2.5 h-fit border border-[#E4E4E7] pr-3 pl-3 rounded-lg">
             <HiMagnifyingGlass />
-            <Input className="border-0" />
+            <Input className="border-0 " />
           </div>
         </div>
 
@@ -57,15 +78,19 @@ export default function Home() {
           <MdOutlineDarkMode />
         </Button>
       </nav>
+      {/* carousel */}
       <div>
         <Carousel className="relative">
           <CarouselContent>
             <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
-              <img
-                className="justify-center w-full"
-                src="https://s3-alpha-sig.figma.com/img/c78e/5e57/16d36abbdaa8df480db189d5729e384a?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=mLG2xOJZNT2vGCrvhDwo3-iKl0QLHOJCxUbykqD81OWYT61RDmWH~sY5qc4qVMmDHRoLdT3VXAnqpxjl4QRY7lvqwtvVTj2-RScRPADrSRE2X1dKJ6MNwI89GQsAr7CVA~Sw886s4cN3GzZCxbhX6nG5wCcsdExQ3ZifH-DrPK1y2qNpWDmJzamRmYUQB4G5gKUvdNeqjPEES5nuyWmp4tVWbJDWV1Ve6DECdtwn6WwE~0puD445Fe7qQpsvTO15bYmHP3E7sN6ZamI~BBe1H7Aisb1JjhHE35MH~r0CHClF6Ayy8aDTsnbuKYmE-rzkB3IlXZLoaZaJNRHFDc~Erg__"
-                alt="wicked"
-              />
+              {playingData?.slice(0, 3).map((value, index) => {
+                return (
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${value.backdrop_path}`}
+                    className="justify-center w-full"
+                  />
+                );
+              })}
             </CarouselItem>
             <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
               <img
@@ -88,12 +113,12 @@ export default function Home() {
         </Carousel>
       </div>
       <main className="w-full h-fit flex flex-col gap-8">
-        <MoviesList listStatus="Upcoming" />
-        <MoviesList listStatus="Popular" />
-        <MoviesList listStatus="Top rated" />
+        <MoviesList listStatus="upcoming" />
+        <MoviesList listStatus="popular" />
+        <MoviesList listStatus="top_rated" />
       </main>
-      <footer className="w-full h-fit py-10 flex flex-col items-start bg-indigo-700">
-        <div className="w-full flex md:flex-row flex-col justify-between">
+      <footer className="w-full h-fit py-10 flex flex-col items-start justify-center bg-indigo-700">
+        <div className="w-full flex md:flex-row flex-col justify-between lg:px-10">
           <div className="flex flex-col gap-3">
             <div className="flex gap-2 items-center">
               <BsFilm color="#FAFAFA" />
