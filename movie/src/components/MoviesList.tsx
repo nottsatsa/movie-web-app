@@ -1,16 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-import { FcRating } from "react-icons/fc";
 import { Button } from "./ui/button";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { RxValue } from "react-icons/rx";
 import { Movie } from "./Movie";
-import { error } from "console";
-import { Slice } from "lucide-react";
 
-export const MoviesList = ({ listStatus }: any) => {
+export const MoviesList = ({ listStatus, listStatusName }: any) => {
   let hudData = [
     {
       posterLink:
@@ -105,7 +100,7 @@ export const MoviesList = ({ listStatus }: any) => {
   return (
     <div className="w-full flex flex-col gap-8 px-20">
       <div className="flex justify-between">
-        <h3 className="font-[600] text-2xl text-[#09090B]">{listStatus}</h3>
+        <h3 className="font-[600] text-2xl text-[#09090B]">{listStatusName}</h3>
         <Button variant="link" className="flex gap-2 w-30 h-9">
           <p className="font-[500] text-lg text-[#09090B]">See more</p>
           <AiOutlineArrowRight size={16} />
@@ -113,7 +108,7 @@ export const MoviesList = ({ listStatus }: any) => {
       </div>
       {/* <div className="w-full grid-rows-[200px_minmax(900px,1fr)_100px] "> */}
       <div className="w-full grid xl:grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
-        {data?.slice(0, 10).map((value, index) => {
+        {data?.slice(0, 10).map((value: any, index: any) => {
           return (
             <Movie
               key={index}

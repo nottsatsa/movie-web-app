@@ -29,9 +29,10 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { MoviesList } from "@/components/MoviesList";
+import { ScrollPoster } from "@/components/ScrollPoster";
 
 export default function Home() {
-  const [playingData, setPlayingData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
@@ -45,7 +46,7 @@ export default function Home() {
           },
         }
       )
-      .then((res) => setPlayingData(res.playingData.results));
+      .then((res) => setData(res.data.results));
   }, []);
 
   return (
@@ -82,40 +83,28 @@ export default function Home() {
       <div>
         <Carousel className="relative">
           <CarouselContent>
-            <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
-              {playingData?.slice(0, 3).map((value, index) => {
-                return (
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${value.backdrop_path}`}
-                    className="justify-center w-full"
-                  />
-                );
-              })}
-            </CarouselItem>
-            <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
-              <img
-                className="w-full"
-                src="https://s3-alpha-sig.figma.com/img/c78e/5e57/16d36abbdaa8df480db189d5729e384a?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=mLG2xOJZNT2vGCrvhDwo3-iKl0QLHOJCxUbykqD81OWYT61RDmWH~sY5qc4qVMmDHRoLdT3VXAnqpxjl4QRY7lvqwtvVTj2-RScRPADrSRE2X1dKJ6MNwI89GQsAr7CVA~Sw886s4cN3GzZCxbhX6nG5wCcsdExQ3ZifH-DrPK1y2qNpWDmJzamRmYUQB4G5gKUvdNeqjPEES5nuyWmp4tVWbJDWV1Ve6DECdtwn6WwE~0puD445Fe7qQpsvTO15bYmHP3E7sN6ZamI~BBe1H7Aisb1JjhHE35MH~r0CHClF6Ayy8aDTsnbuKYmE-rzkB3IlXZLoaZaJNRHFDc~Erg__"
-                alt="wicked"
-              />
-            </CarouselItem>
-            <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
-              {" "}
-              <img
-                className="w-full"
-                src="https://s3-alpha-sig.figma.com/img/c78e/5e57/16d36abbdaa8df480db189d5729e384a?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=mLG2xOJZNT2vGCrvhDwo3-iKl0QLHOJCxUbykqD81OWYT61RDmWH~sY5qc4qVMmDHRoLdT3VXAnqpxjl4QRY7lvqwtvVTj2-RScRPADrSRE2X1dKJ6MNwI89GQsAr7CVA~Sw886s4cN3GzZCxbhX6nG5wCcsdExQ3ZifH-DrPK1y2qNpWDmJzamRmYUQB4G5gKUvdNeqjPEES5nuyWmp4tVWbJDWV1Ve6DECdtwn6WwE~0puD445Fe7qQpsvTO15bYmHP3E7sN6ZamI~BBe1H7Aisb1JjhHE35MH~r0CHClF6Ayy8aDTsnbuKYmE-rzkB3IlXZLoaZaJNRHFDc~Erg__"
-                alt="wicked"
-              />
-            </CarouselItem>
+            {data?.slice(0, 3).map((value: any, index: any) => {
+              return (
+                <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
+                  <ScrollPoster
+                    key={index}
+                    imageLink={value.backdrop_path}
+                    rating={value.vote_average}
+                    movieName={value.original_title}
+                    overview={value.overview}
+                  />{" "}
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
           <CarouselPrevious className="absolute left-10 top-[50%]" />
           <CarouselNext className="absolute right-10 top-[50%]" />
         </Carousel>
       </div>
       <main className="w-full h-fit flex flex-col gap-8">
-        <MoviesList listStatus="upcoming" />
-        <MoviesList listStatus="popular" />
-        <MoviesList listStatus="top_rated" />
+        <MoviesList listStatus="upcoming" listStatusName="Upcoming" />
+        <MoviesList listStatus="popular" listStatusName="Popular" />
+        <MoviesList listStatus="top_rated" listStatusName="Top rated" />
       </main>
       <footer className="w-full h-fit py-10 flex flex-col items-start justify-center bg-indigo-700">
         <div className="w-full flex md:flex-row flex-col justify-between lg:px-10">
