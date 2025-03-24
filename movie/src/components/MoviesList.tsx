@@ -1,12 +1,12 @@
-"use client";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Button } from "./ui/button";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { Movie } from "./Movie";
-import { useRouter } from "next/navigation";
+'use client';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Button } from './ui/button';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { Movie } from './Movie';
+import { useRouter } from 'next/navigation';
 
-export const MoviesList = ({ listStatus, listStatusName }: any) => {
+export const MoviesList = ({ listStatus, listStatusName, className }: any) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,9 +20,9 @@ export const MoviesList = ({ listStatus, listStatusName }: any) => {
         `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=1`,
         {
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE',
           },
         }
       )
@@ -41,7 +41,7 @@ export const MoviesList = ({ listStatus, listStatusName }: any) => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 px-20">
+    <div className={`w-full flex flex-col gap-8 ${className}`}>
       <div className="flex justify-between">
         <h3 className="font-[600] text-2xl text-[#09090B]">{listStatusName}</h3>
         <Button variant="link" className="flex gap-2 w-30 h-9">
