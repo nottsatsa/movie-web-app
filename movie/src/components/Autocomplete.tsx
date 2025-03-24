@@ -194,9 +194,11 @@
 //   );
 // };
 
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { LiaTimesSolid } from "react-icons/lia";
 
 type OptionType = {
   value: string;
@@ -222,45 +224,34 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({ options }) => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>Genres</h2>
-      <p style={{ fontSize: '16px', color: '#555' }}>
+    <div style={{ padding: "20px", maxWidth: "600px" }}>
+      <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>Genres</h2>
+      <p style={{ fontSize: "16px", color: "#555" }}>
         See lists of movies by genre
       </p>
       <div
+        className="md:w-[537px] w-[295px]"
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '10px',
-          marginTop: '10px',
-        }}
-      >
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          marginTop: "10px",
+        }}>
         {options.map((option) => {
           const isSelected = selectedOptions.some(
             (item) => item.value === option.value
           );
           return (
             <button
+              className="flex gap-1 py-0.5 pr-1 pl-2.5 w-fit items-center border-1 border-solid border-[#E4E4E7] rounded-full justify-center text-xs"
               key={option.value}
               onClick={() => handleSelect(option)}
               style={{
-                padding: '8px 12px',
-                border: '1px solid #ddd',
-                borderRadius: '20px',
-                backgroundColor: isSelected ? 'black' : 'white',
-                color: isSelected ? 'white' : 'black',
-                fontSize: '14px',
-                cursor: 'pointer',
-                transition: '0.3s',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-              }}
-            >
+                backgroundColor: isSelected ? "black" : "white",
+                color: isSelected ? "white" : "black",
+              }}>
               {option.label}
-              {isSelected && (
-                <span style={{ fontWeight: 'bold' }}>&times;</span>
-              )}
+              {isSelected ? <LiaTimesSolid /> : <IoIosArrowForward />}
             </button>
           );
         })}
