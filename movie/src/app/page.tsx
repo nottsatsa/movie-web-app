@@ -1,12 +1,12 @@
-"use client";
-import { useState, useEffect } from "react";
-import axios from "axios";
+'use client';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import { BsFilm } from "react-icons/bs";
-import { HiMagnifyingGlass } from "react-icons/hi2";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { HiOutlineMail } from "react-icons/hi";
-import { MdOutlineLocalPhone } from "react-icons/md";
+import { BsFilm } from 'react-icons/bs';
+import { HiMagnifyingGlass } from 'react-icons/hi2';
+import { MdOutlineDarkMode } from 'react-icons/md';
+import { HiOutlineMail } from 'react-icons/hi';
+import { MdOutlineLocalPhone } from 'react-icons/md';
 
 import {
   NavigationMenu,
@@ -17,32 +17,72 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/navigation-menu';
+import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/carousel';
+import { Input } from '@/components/ui/input';
 
-import { MoviesList } from "@/components/MoviesList";
-import { ScrollPoster } from "@/components/ScrollPoster";
+import { MoviesList } from '@/components/MoviesList';
+import { ScrollPoster } from '@/components/ScrollPoster';
+import { Autocomplete } from '@/components/Autocomplete';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 export default function Home() {
+  const genres = [
+    { value: 'action', label: 'Action' },
+    { value: 'adventure', label: 'Adventure' },
+    { value: 'animation', label: 'Animation' },
+    { value: 'biography', label: 'Biography' },
+    { value: 'comedy', label: 'Comedy' },
+    { value: 'crime', label: 'Crime' },
+    { value: 'documentary', label: 'Documentary' },
+    { value: 'drama', label: 'Drama' },
+    { value: 'family', label: 'Family' },
+    { value: 'fantasy', label: 'Fantasy' },
+    { value: 'film-noir', label: 'Film-Noir' },
+    { value: 'game-show', label: 'Game-Show' },
+    { value: 'history', label: 'History' },
+    { value: 'horror', label: 'Horror' },
+    { value: 'music', label: 'Music' },
+    { value: 'musical', label: 'Musical' },
+    { value: 'mystery', label: 'Mystery' },
+    { value: 'news', label: 'News' },
+    { value: 'reality-tv', label: 'Reality-TV' },
+    { value: 'romance', label: 'Romance' },
+    { value: 'sci-fi', label: 'Sci-Fi' },
+    { value: 'short', label: 'Short' },
+    { value: 'sport', label: 'Sport' },
+    { value: 'talk-show', label: 'Talk-Show' },
+    { value: 'thriller', label: 'Thriller' },
+    { value: 'war', label: 'War' },
+    { value: 'western', label: 'Western' },
+  ];
+
+  const handleSelectChange = (option: any) => {
+    console.log('Сонгосон утга:', option);
+  };
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
       .get(
-        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+        'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
         {
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE',
           },
         }
       )
@@ -69,6 +109,13 @@ export default function Home() {
             </NavigationMenuList>
           </NavigationMenu>
 
+          <Popover>
+            <PopoverTrigger>Genre</PopoverTrigger>
+            <PopoverContent>
+              <Autocomplete options={genres}></Autocomplete>
+            </PopoverContent>
+          </Popover>
+
           <div className="flex items-center gap-2.5 h-fit border border-[#E4E4E7] pr-3 pl-3 rounded-lg">
             <HiMagnifyingGlass />
             <Input className="border-0 " />
@@ -83,16 +130,18 @@ export default function Home() {
       <div>
         <Carousel className="relative">
           <CarouselContent>
-            {data?.slice(0, 3).map((value: any, index: any) => {
+            {data?.slice(0, 3).map((value: any, index: number) => {
               return (
-                <CarouselItem className="flex items-center w-full h-200 overflow-hidden">
+                <CarouselItem
+                  key={value.id || index}
+                  className="flex items-center w-full h-200 overflow-hidden"
+                >
                   <ScrollPoster
-                    key={index}
                     imageLink={value.backdrop_path}
                     rating={value.vote_average}
                     movieName={value.original_title}
                     overview={value.overview}
-                  />{" "}
+                  />
                 </CarouselItem>
               );
             })}
