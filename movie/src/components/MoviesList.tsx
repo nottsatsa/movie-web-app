@@ -1,12 +1,17 @@
-'use client';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Button } from './ui/button';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { Movie } from './Movie';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Button } from "./ui/button";
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { Movie } from "./Movie";
+import { useRouter } from "next/navigation";
 
-export const MoviesList = ({ listStatus, listStatusName, className }: any) => {
+export const MoviesList = ({
+  listStatus,
+  listStatusName,
+  className,
+  tav,
+}: any) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,9 +25,9 @@ export const MoviesList = ({ listStatus, listStatusName, className }: any) => {
         `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=1`,
         {
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE',
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
           },
         }
       )
@@ -51,17 +56,29 @@ export const MoviesList = ({ listStatus, listStatusName, className }: any) => {
       </div>
       {/* <div className="w-full grid-rows-[200px_minmax(900px,1fr)_100px] "> */}
       <div className="w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
-        {data?.slice(0, 10).map((value: any, index: any) => {
-          return (
-            <Movie
-              key={index}
-              posterLink={`https://image.tmdb.org/t/p/w300${value.poster_path}`}
-              rating={value.vote_average}
-              movieName={value.original_title}
-              onClick={() => handleOnClick(value.id)}
-            />
-          );
-        })}
+        {tav
+          ? data?.slice(0, 5).map((value: any, index: any) => {
+              return (
+                <Movie
+                  key={index}
+                  posterLink={`https://image.tmdb.org/t/p/w300${value.poster_path}`}
+                  rating={value.vote_average}
+                  movieName={value.original_title}
+                  onClick={() => handleOnClick(value.id)}
+                />
+              );
+            })
+          : data?.slice(0, 10).map((value: any, index: any) => {
+              return (
+                <Movie
+                  key={index}
+                  posterLink={`https://image.tmdb.org/t/p/w300${value.poster_path}`}
+                  rating={value.vote_average}
+                  movieName={value.original_title}
+                  onClick={() => handleOnClick(value.id)}
+                />
+              );
+            })}
       </div>
     </div>
   );
