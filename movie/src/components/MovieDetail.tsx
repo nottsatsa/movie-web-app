@@ -80,7 +80,7 @@ export const MovieDetail = ({
               <div className="flex flex-col gap-0">
                 <div>
                   <span className="text-lg font-[500] text-[#09090B]">
-                    {vote_average}
+                    {String(vote_average).slice(0, 3)}
                   </span>
                   <span className="text-[#71717A] text-base">/10</span>
                 </div>

@@ -11,6 +11,7 @@ export const MoviesList = ({
   listStatusName,
   className,
   tav,
+  pageNo,
 }: any) => {
   const [data, setData] = useState([]);
 
@@ -22,7 +23,7 @@ export const MoviesList = ({
     // const response = await
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=1`,
+        `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=${pageNo}`,
         {
           headers: {
             Accept: "application/json",
@@ -45,11 +46,18 @@ export const MoviesList = ({
     router.push(`/detail/${movieId}`);
   };
 
+  const seeMoreClick = () => {
+    router.push(`/see_more/${listStatus}`);
+  };
+
   return (
     <div className={`w-full flex flex-col gap-8 ${className}`}>
       <div className="flex justify-between">
         <h3 className="font-[600] text-2xl text-[#09090B]">{listStatusName}</h3>
-        <Button variant="link" className="flex gap-2 w-30 h-9">
+        <Button
+          variant="link"
+          onClick={seeMoreClick}
+          className="flex gap-2 w-30 h-9">
           <p className="font-[500] text-lg text-[#09090B]">See more</p>
           <AiOutlineArrowRight size={16} />
         </Button>

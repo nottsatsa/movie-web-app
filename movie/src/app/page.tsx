@@ -15,6 +15,7 @@ import { ScrollPoster } from "@/components/ScrollPoster";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -65,12 +66,19 @@ export default function Home() {
           listStatus="upcoming"
           listStatusName="Upcoming"
           tav={false}
+          pageNo={"1"}
         />
-        <MoviesList listStatus="popular" listStatusName="Popular" tav={false} />
+        <MoviesList
+          listStatus="popular"
+          listStatusName="Popular"
+          tav={false}
+          pageNo={"1"}
+        />
         <MoviesList
           listStatus="top_rated"
           listStatusName="Top rated"
           tav={false}
+          pageNo={"1"}
         />
       </main>
 
