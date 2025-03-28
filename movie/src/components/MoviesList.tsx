@@ -39,7 +39,7 @@ export const MoviesList = ({
     //   console.error("aldaa shu api:", error);
     // }
     // fetchData();
-  }, []); // 'listStatus' хувьсагч өөрчлөгдөх үед дахин татна
+  }, [pageNo]); // 'listStatus' хувьсагч өөрчлөгдөх үед дахин татна
 
   const router = useRouter();
   const handleOnClick = (movieId: string) => {
@@ -49,6 +49,7 @@ export const MoviesList = ({
   const seeMoreClick = () => {
     router.push(`/see_more/${listStatus}`);
   };
+  console.log(pageNo, "pageNO");
 
   return (
     <div className={`w-full flex flex-col gap-8 ${className}`}>

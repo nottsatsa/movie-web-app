@@ -26,7 +26,10 @@ export const Movie = ({
         <div className="w-53.5 h-5.5 flex flex-row gap-1 items-center">
           <FaStar size={16} color="#fde046" />
           <div>
-            <span className="text-sm font-[500] text-[#09090B]">{rating}</span>
+            <span className="text-sm font-[500] text-[#09090B]">
+              {String(rating).slice(0, 3)}
+            </span>
+
             <span className="text-[#71717A] text-xs">/10</span>
           </div>
         </div>

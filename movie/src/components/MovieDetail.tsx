@@ -81,6 +81,7 @@ export const MovieDetail = ({
                 <div>
                   <span className="text-lg font-[500] text-[#09090B]">
                     {String(vote_average).slice(0, 3)}
+                    {/* {vote_average} */}
                   </span>
                   <span className="text-[#71717A] text-base">/10</span>
                 </div>
@@ -192,6 +193,7 @@ export const MovieDetail = ({
           listStatus={`${movieId}/similar`}
           listStatusName="More like this"
           tav={true}
+          pageNo={"1"}
         />
       </div>
     </div>

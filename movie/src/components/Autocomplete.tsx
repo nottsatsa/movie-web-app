@@ -1,38 +1,38 @@
-// // // 'use client';
+// "use client";
 
-// // // import Select, { MultiValue } from 'react-select';
-// // // import { useState } from 'react';
+// import Select, { MultiValue } from "react-select";
+// import { useState } from "react";
 
-// // // type OptionType = {
-// // //   value: string;
-// // //   label: string;
-// // // };
+// type OptionType = {
+//   value: string;
+//   label: string;
+// };
 
-// // // interface AutocompleteProps {
-// // //   options: OptionType[];
-// // // }
+// interface AutocompleteProps {
+//   options: OptionType[];
+// }
 
-// // // export const Autocomplete: React.FC<AutocompleteProps> = ({ options }) => {
-// // //   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
+// export const Autocomplete: React.FC<AutocompleteProps> = ({ options }) => {
+//   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
 
-// // //   const handleChange = (selected: MultiValue<OptionType>) => {
-// // //     // Сонгосон утгуудыг хадгална
-// // //     setSelectedOptions(selected.map((option) => option as OptionType));
-// // //   };
+//   const handleChange = (selected: MultiValue<OptionType>) => {
+//     // Сонгосон утгуудыг хадгална
+//     setSelectedOptions(selected.map((option) => option as OptionType));
+//   };
 
-// // //   return (
-// // //     <div>
-// // //       <Select
-// // //         options={options} // Сонголтын бүх боломжит утга
-// // //         onChange={handleChange} // Сонголтыг шинэчлэх
-// // //         placeholder="Сонгоно уу..."
-// // //         isMulti // Олон сонголт хийхийг зөвшөөрөх
-// // //         value={selectedOptions} // Сонгосон утгуудыг хадгалах
-// // //         isClearable={false} // Сонголтыг арилгахыг хориглох
-// // //       />
-// // //     </div>
-// // //   );
-// // // };
+//   return (
+//     <div>
+//       <Select
+//         options={options} // Сонголтын бүх боломжит утга
+//         onChange={handleChange} // Сонголтыг шинэчлэх
+//         placeholder="Сонгоно уу..."
+//         isMulti // Олон сонголт хийхийг зөвшөөрөх
+//         value={selectedOptions} // Сонгосон утгуудыг хадгалах
+//         isClearable={false} // Сонголтыг арилгахыг хориглох
+//       />
+//     </div>
+//   );
+// };
 
 // // 'use client';
 
@@ -98,10 +98,10 @@
 // //   );
 // // };
 
-// 'use client';
+// ("use client");
 
-// import Select, { MultiValue, StylesConfig } from 'react-select';
-// import { useState } from 'react';
+// import Select, { MultiValue, StylesConfig } from "react-select";
+// import { useState } from "react";
 
 // type OptionType = {
 //   value: string;
@@ -123,58 +123,58 @@
 //   const customStyles: StylesConfig<OptionType, true> = {
 //     control: (base) => ({
 //       ...base,
-//       borderRadius: '8px',
-//       padding: '5px',
-//       borderColor: '#ddd',
-//       boxShadow: 'none',
-//       ':hover': {
-//         borderColor: '#aaa',
+//       borderRadius: "8px",
+//       padding: "5px",
+//       borderColor: "#ddd",
+//       boxShadow: "none",
+//       ":hover": {
+//         borderColor: "#aaa",
 //       },
 //     }),
 //     multiValue: (base) => ({
 //       ...base,
-//       backgroundColor: 'black',
-//       color: 'white',
-//       borderRadius: '20px',
-//       padding: '5px 10px',
-//       display: 'flex',
-//       alignItems: 'center',
+//       backgroundColor: "black",
+//       color: "white",
+//       borderRadius: "20px",
+//       padding: "5px 10px",
+//       display: "flex",
+//       alignItems: "center",
 //     }),
 //     multiValueLabel: (base) => ({
 //       ...base,
-//       color: 'white',
-//       fontWeight: 'bold',
+//       color: "white",
+//       fontWeight: "bold",
 //     }),
 //     multiValueRemove: (base) => ({
 //       ...base,
-//       color: 'white',
-//       ':hover': {
-//         backgroundColor: 'gray',
-//         color: 'black',
-//         borderRadius: '50%',
+//       color: "white",
+//       ":hover": {
+//         backgroundColor: "gray",
+//         color: "black",
+//         borderRadius: "50%",
 //       },
 //     }),
 //     option: (base, { isSelected }) => ({
 //       ...base,
-//       backgroundColor: isSelected ? 'black' : 'white',
-//       color: isSelected ? 'white' : 'black',
-//       borderRadius: '20px',
-//       padding: '8px 12px',
-//       margin: '5px',
-//       textAlign: 'center',
-//       ':hover': {
-//         backgroundColor: '#e0e0e0',
-//         color: 'black',
+//       backgroundColor: isSelected ? "black" : "white",
+//       color: isSelected ? "white" : "black",
+//       borderRadius: "20px",
+//       padding: "8px 12px",
+//       margin: "5px",
+//       textAlign: "center",
+//       ":hover": {
+//         backgroundColor: "#e0e0e0",
+//         color: "black",
 //       },
 //     }),
 //     menu: (base) => ({
 //       ...base,
-//       borderRadius: '8px',
-//       padding: '10px',
+//       borderRadius: "8px",
+//       padding: "10px",
 //     }),
 //     placeholder: (base) => ({
 //       ...base,
-//       color: '#999',
+//       color: "#999",
 //     }),
 //   };
 
@@ -194,8 +194,9 @@
 //   );
 // };
 
-"use client";
+//=======================================================================================
 
+"use client";
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
@@ -259,3 +260,4 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({ options }) => {
     </div>
   );
 };
+<></>;
