@@ -18,9 +18,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { seteuid } from "process";
 
 interface SeeMoreProps {
-  params: Promise<{ seeMore: string }>;
+  params: Promise<{ seeMore: string; movieId: string }>;
 }
 
 export default function SeeMore({ params }: SeeMoreProps) {
@@ -42,12 +43,24 @@ export default function SeeMore({ params }: SeeMoreProps) {
     }
   };
 
+  // const listStatusValue = /\d/.test(seeMore) ? `${movieId}/similar` : seeMoreState;
+
+  const countNumbers = (text: string): number => {
+    const matches = text.match(/\d/g);
+    return matches ? matches.length : 0;
+  };
+  console.log(countNumbers(seeMore));
+
   return (
     <div className="px-20">
       {seeMoreState}
       <Navigation />
       <MoviesList
-        listStatus={seeMoreState}
+        // listStatus={seeMoreState}
+        // listStatus={listStatusValue}
+        listStatus={
+          /\d/.test(seeMore) ? `${countNumbers(seeMore)}/similar` : seeMoreState
+        }
         listStatusName="More like this"
         tav={false}
         pageNo={`${pageNumber}`}
@@ -58,12 +71,30 @@ export default function SeeMore({ params }: SeeMoreProps) {
             <PaginationPrevious onClick={clickNega} />
           </PaginationItem>
           <PaginationItem>
-            <PaginationEllipsis />
+            {pageNumber <= 4 ? (
+              <PaginationEllipsis className="hidden" />
+            ) : (
+              <PaginationEllipsis />
+            )}
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink onClick={clickNega}>
-              {pageNumber - 1}
-            </PaginationLink>
+            {pageNumber <= 4 ? (
+              <PaginationEllipsis className="hidden" />
+            ) : (
+              <PaginationEllipsis />
+            )}
+          </PaginationItem>
+          <PaginationItem>
+            {pageNumber === 1 ? (
+              <PaginationLink className="hidden" onClick={clickNega}>
+                {pageNumber - 1}
+              </PaginationLink>
+            ) : (
+              <PaginationLink onClick={clickNega}>
+                {pageNumber - 1}
+              </PaginationLink>
+            )}
+
             <PaginationLink>{pageNumber}</PaginationLink>
             <PaginationLink onClick={clickPlus}>
               {pageNumber + 1}
