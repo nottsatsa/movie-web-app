@@ -1,6 +1,6 @@
 "use client";
 import { use, useState, useEffect } from "react";
-import axios from "axios";
+import { axiosInstance } from "@/lib/utils";
 
 import { Footer } from "@/components/Footer";
 import { MovieDetail } from "@/components/MovieDetail";
@@ -26,36 +26,9 @@ export default function Detail({ params }: DetailProps) {
       try {
         const [movieResponse, creditResponse, videosResponse] =
           await Promise.all([
-            axios.get(
-              `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-              {
-                headers: {
-                  Accept: "application/json",
-                  Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
-                },
-              }
-            ),
-            axios.get(
-              `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
-              {
-                headers: {
-                  Accept: "application/json",
-                  Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
-                },
-              }
-            ),
-            axios.get(
-              `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
-              {
-                headers: {
-                  Accept: "application/json",
-                  Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
-                },
-              }
-            ),
+            axiosInstance.get(`movie/${movieId}?language=en-US`),
+            axiosInstance.get(`movie/${movieId}/credits?language=en-US`),
+            axiosInstance.get(`movie/${movieId}/videos?language=en-US`),
           ]);
 
         setMovieData({

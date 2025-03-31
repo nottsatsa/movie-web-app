@@ -7,6 +7,8 @@ import { Footer } from "@/components/Footer";
 import { MoviesList } from "@/components/MoviesList";
 import { Navigation } from "@/components/Navigation";
 
+import { axiosInstance } from "@/lib/utils";
+
 import { useRouter } from "next/navigation";
 
 import {
@@ -21,14 +23,21 @@ import {
 import { seteuid } from "process";
 
 interface SeeMoreProps {
-  params: Promise<{ seeMore: string; movieId: string }>;
+  params: Promise<{ seeMore: string }>;
 }
 
 export default function SeeMore({ params }: SeeMoreProps) {
   const { seeMore } = use(params);
   const [seeMoreState, setSeeMoreState] = useState(seeMore);
-
   const [pageNumber, setPageNumber] = useState(1);
+
+  const [pageData, setPageData] = useState(1);
+
+  useEffect(() => {
+    axiosInstance
+      .get(`movie/${seeMoreState}?language=en-US&page=1`)
+      .then((res: any) => setPageData(res.data.total_pages));
+  });
 
   const router = useRouter();
   const clickPlus = () => {
@@ -43,13 +52,21 @@ export default function SeeMore({ params }: SeeMoreProps) {
     }
   };
 
+  const clickFirst = () => {
+    setPageNumber(1);
+  };
+
+  const clickLast = () => {
+    setPageNumber(pageData);
+  };
+
   // const listStatusValue = /\d/.test(seeMore) ? `${movieId}/similar` : seeMoreState;
 
   const countNumbers = (text: string): number => {
     const matches = text.match(/\d/g);
     return matches ? matches.length : 0;
   };
-  console.log(countNumbers(seeMore));
+  console.log(pageNumber);
 
   return (
     <div className="px-20">
@@ -63,7 +80,7 @@ export default function SeeMore({ params }: SeeMoreProps) {
         }
         listStatusName="More like this"
         tav={false}
-        pageNo={`${pageNumber}`}
+        pageNo={pageNumber}
       />
       <Pagination>
         <PaginationContent>
@@ -71,14 +88,16 @@ export default function SeeMore({ params }: SeeMoreProps) {
             <PaginationPrevious onClick={clickNega} />
           </PaginationItem>
           <PaginationItem>
-            {pageNumber <= 4 ? (
-              <PaginationEllipsis className="hidden" />
+            {pageNumber >= 3 ? (
+              <PaginationLink onClick={clickFirst}>{1}</PaginationLink>
             ) : (
-              <PaginationEllipsis />
+              <PaginationLink className="hidden" onClick={clickNega}>
+                {pageNumber - 1}
+              </PaginationLink>
             )}
           </PaginationItem>
           <PaginationItem>
-            {pageNumber <= 4 ? (
+            {pageNumber < 4 ? (
               <PaginationEllipsis className="hidden" />
             ) : (
               <PaginationEllipsis />
@@ -96,13 +115,31 @@ export default function SeeMore({ params }: SeeMoreProps) {
             )}
 
             <PaginationLink>{pageNumber}</PaginationLink>
-            <PaginationLink onClick={clickPlus}>
-              {pageNumber + 1}
-            </PaginationLink>
+            {pageNumber === pageData ? (
+              <PaginationLink onClick={clickPlus} className="hidden">
+                {pageNumber + 1}
+              </PaginationLink>
+            ) : (
+              <PaginationLink onClick={clickPlus}>
+                {pageNumber + 1}
+              </PaginationLink>
+            )}
           </PaginationItem>
           <PaginationItem>
-            <PaginationEllipsis />
+            {pageNumber < pageData - 2 ? (
+              <PaginationEllipsis />
+            ) : (
+              <PaginationEllipsis className="hidden" />
+            )}
           </PaginationItem>
+          <PaginationItem>
+            {pageNumber <= pageData - 2 ? (
+              <PaginationLink onClick={clickLast}>{pageData}</PaginationLink>
+            ) : (
+              <PaginationEllipsis className="hidden" />
+            )}
+          </PaginationItem>
+
           <PaginationItem>
             <PaginationNext onClick={clickPlus} />
           </PaginationItem>

@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { Movie } from "./Movie";
 import { useRouter } from "next/navigation";
+import { axiosInstance } from "@/lib/utils";
 
 export const MoviesList = ({
   listStatus,
@@ -14,26 +15,20 @@ export const MoviesList = ({
   pageNo,
 }: any) => {
   const [data, setData] = useState([]);
-
+  const [page, setPage] = useState();
   useEffect(() => {
     // asynchronous код давхар гүйцэтгэгдэх боломжтой болно.
     // const fetchData = async () => {
     // Алдаа гарахад try-catch ашиглан барьж, алдааны мэдээлэл харуулдаг болгов.
     // try {
     // const response = await
-    axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${listStatus}?language=en-US&page=${pageNo}`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMzk2OTBmOTgzMGNlODA0Yjc4OTRhYzFkZWY0ZjdlOSIsIm5iZiI6MTczNDk0OTM3MS43NDIsInN1YiI6IjY3NjkzOWZiYzdmMTcyMDVkMTBiMGIxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2r2TerxSJdZGmGVSLVDkk6nHT0NPqY4rOcxHtMNt0aE",
-          },
-        }
-      )
+    axiosInstance
+      .get(`movie/${listStatus}?language=en-US&page=${pageNo}`)
       // setData(response.data.results);
-      .then((res) => setData(res.data.results));
+      .then((res) => {
+        setData(res.data.results), setPage(res.data.total_pages);
+      });
+    console.log(page, "suus");
 
     // catch (error) {
     //   console.error("aldaa shu api:", error);
@@ -50,6 +45,8 @@ export const MoviesList = ({
     router.push(`/see_more/${listStatus}`);
   };
   console.log(pageNo, "pageNO");
+
+  const total_pages = {};
 
   return (
     <div className={`w-full flex flex-col gap-8 ${className}`}>
