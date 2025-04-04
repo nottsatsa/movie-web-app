@@ -68,7 +68,6 @@ export default function Detail({ params }: DetailProps) {
 
   return (
     <div>
-      <Navigation />
       <h2>Movie ID: {movieId}</h2>
 
       <MovieDetail
@@ -100,8 +99,6 @@ export default function Detail({ params }: DetailProps) {
         movieId={movieId}
         videoKey={videoKey}
       />
-
-      <Footer />
     </div>
   );
 }

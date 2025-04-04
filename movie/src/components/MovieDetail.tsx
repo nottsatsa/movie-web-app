@@ -115,7 +115,7 @@ export const MovieDetail = ({
                   className="rounded-full bg-[#FFF] flex items-center gap-2"
                   onClick={handleBackClick}>
                   <IoArrowBackOutline size={16} color="black" />
-                  <span>Back</span>
+                  <span className="text-black">Back</span>
                 </Button>
               </div>
             </div>
@@ -190,7 +190,8 @@ export const MovieDetail = ({
       <div className="flex flex-col items-start gap-8">
         <MoviesList
           className="px-0"
-          listStatus={`${movieId}/similar`}
+          listStatus={`${movieId}/similar`} //mine
+          // listStatus={`/similar?movieId=${movieId}`} //bagsh
           listStatusName="More like this"
           tav={true}
           pageNo={"1"}

@@ -9,7 +9,7 @@ import { Navigation } from "@/components/Navigation";
 
 import { axiosInstance } from "@/lib/utils";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Pagination,
@@ -29,7 +29,11 @@ interface SeeMoreProps {
 export default function SeeMore({ params }: SeeMoreProps) {
   const { seeMore } = use(params);
   const [seeMoreState, setSeeMoreState] = useState(seeMore);
-  const [pageNumber, setPageNumber] = useState(1);
+
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
+  const movieId = searchParams.get("movieId");
+  const [pageNumber, setPageNumber] = useState<number>(Number(page) || 1);
 
   const [pageData, setPageData] = useState(1);
 
@@ -60,7 +64,7 @@ export default function SeeMore({ params }: SeeMoreProps) {
     setPageNumber(pageData);
   };
 
-  // const listStatusValue = /\d/.test(seeMore) ? `${movieId}/similar` : seeMoreState;
+  const kinoId = /\d/.test(seeMoreState) ? "similar" : seeMoreState;
 
   const countNumbers = (text: string): number => {
     const matches = text.match(/\d/g);
@@ -71,25 +75,36 @@ export default function SeeMore({ params }: SeeMoreProps) {
   return (
     <div className="px-20">
       {seeMoreState}
-      <Navigation />
-      <MoviesList
-        // listStatus={seeMoreState}
-        // listStatus={listStatusValue}
-        listStatus={
-          /\d/.test(seeMore) ? `${countNumbers(seeMore)}/similar` : seeMoreState
-        }
-        listStatusName="More like this"
-        tav={false}
-        pageNo={pageNumber}
-      />
+      {movieId}
+
+      {/\d/.test(seeMoreState) ? (
+        <MoviesList
+          listStatus={`${seeMoreState}/similar`}
+          listStatusName="More like this"
+          tav={false}
+          pageNo={pageNumber}
+        />
+      ) : (
+        <MoviesList
+          listStatus={seeMoreState}
+          listStatusName="More like this"
+          tav={false}
+          pageNo={pageNumber}
+        />
+      )}
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious onClick={clickNega} />
+            <PaginationPrevious
+              onClick={clickNega}
+              href={`?page=${pageNumber}`}
+            />
           </PaginationItem>
           <PaginationItem>
             {pageNumber >= 3 ? (
-              <PaginationLink onClick={clickFirst}>{1}</PaginationLink>
+              <PaginationLink onClick={clickFirst} href={`?page=${1}`}>
+                {1}
+              </PaginationLink>
             ) : (
               <PaginationLink className="hidden" onClick={clickNega}>
                 {pageNumber - 1}
@@ -97,11 +112,7 @@ export default function SeeMore({ params }: SeeMoreProps) {
             )}
           </PaginationItem>
           <PaginationItem>
-            {pageNumber < 4 ? (
-              <PaginationEllipsis className="hidden" />
-            ) : (
-              <PaginationEllipsis />
-            )}
+            {pageNumber > 4 && <PaginationEllipsis />}
           </PaginationItem>
           <PaginationItem>
             {pageNumber === 1 ? (
@@ -109,7 +120,7 @@ export default function SeeMore({ params }: SeeMoreProps) {
                 {pageNumber - 1}
               </PaginationLink>
             ) : (
-              <PaginationLink onClick={clickNega}>
+              <PaginationLink onClick={clickNega} href={`?page=${pageNumber}`}>
                 {pageNumber - 1}
               </PaginationLink>
             )}
@@ -120,7 +131,7 @@ export default function SeeMore({ params }: SeeMoreProps) {
                 {pageNumber + 1}
               </PaginationLink>
             ) : (
-              <PaginationLink onClick={clickPlus}>
+              <PaginationLink onClick={clickPlus} href={`?page=${pageNumber}`}>
                 {pageNumber + 1}
               </PaginationLink>
             )}
@@ -134,18 +145,19 @@ export default function SeeMore({ params }: SeeMoreProps) {
           </PaginationItem>
           <PaginationItem>
             {pageNumber <= pageData - 2 ? (
-              <PaginationLink onClick={clickLast}>{pageData}</PaginationLink>
+              <PaginationLink onClick={clickLast} href={`?page=${pageNumber}`}>
+                {pageData}
+              </PaginationLink>
             ) : (
               <PaginationEllipsis className="hidden" />
             )}
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationNext onClick={clickPlus} />
+            <PaginationNext onClick={clickPlus} href={`?page=${pageNumber}`} />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-      <Footer />
     </div>
   );
 }

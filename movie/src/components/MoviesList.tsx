@@ -16,6 +16,9 @@ export const MoviesList = ({
 }: any) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState();
+  console.log(listStatus);
+  // /similar?movieId=447273
+
   useEffect(() => {
     // asynchronous код давхар гүйцэтгэгдэх боломжтой болно.
     // const fetchData = async () => {
@@ -42,6 +45,13 @@ export const MoviesList = ({
   };
 
   const seeMoreClick = () => {
+    if (listStatus.includes("similar")) {
+      const newStatus = listStatus.split("/")[0];
+
+      router.push(`/see_more/${newStatus}`);
+
+      return;
+    }
     router.push(`/see_more/${listStatus}`);
   };
   console.log(pageNo, "pageNO");

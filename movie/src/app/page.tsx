@@ -29,7 +29,6 @@ export default function Home() {
 
   return (
     <Suspense fallback={<Skeleton />}>
-      <Navigation />
       {/* carousel */}
       <div>
         <Carousel className="relative">
@@ -73,8 +72,6 @@ export default function Home() {
           pageNo={"1"}
         />
       </main>
-
-      <Footer />
     </Suspense>
   );
 }
