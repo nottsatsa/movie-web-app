@@ -1,3 +1,4 @@
+"use client";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +15,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { Autocomplete } from "@/components/Autocomplete";
+import { SearchInput } from "./searchMovie";
+import { useState, useEffect } from "react";
+import { axiosInstance } from "@/lib/utils";
 
 export const Navigation = ({}) => {
   const genres = [
@@ -45,7 +49,17 @@ export const Navigation = ({}) => {
     { value: "war", label: "War" },
     { value: "western", label: "Western" },
   ];
+  const [searchMovie, setSearchMovie] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const searchValueHandleOnChange = (event: any) => {
+    setSearchMovie(event.target.value);
+  };
 
+  useEffect(() => {
+    axiosInstance
+      .get(`search/movie?query=${searchMovie}&language=en-US&page=1`)
+      .then((res: any) => setSearchResult(res.data.results));
+  }, [searchMovie]);
   return (
     <nav className="flex items-center justify-around p-4">
       <a className="flex gap-2 items-center " href="http://localhost:3000/">
@@ -67,7 +81,10 @@ export const Navigation = ({}) => {
 
         <div className="flex items-center gap-2.5 h-fit border border-[#E4E4E7] pr-3 pl-3 rounded-lg">
           <HiMagnifyingGlass />
-          <Input className="border-0 " />
+          {/* <Input className="border-0 " /> */}
+          <SearchInput searchValue={searchValueHandleOnChange} />
+          <p>{searchMovie}</p>
+          {/* <p>{searchResult}</p> */}
         </div>
       </div>
 
